@@ -1,0 +1,114 @@
+import java.util.*;
+import java.io.*;
+public class FruitGuessingGame
+{
+    public static void playgame()
+    {
+        Scanner scanconsole = new Scanner(System.in);
+        TreeNode<String> yes = new TreeNode<String>("apple");
+        TreeNode<String> no = new TreeNode<String>("banana");
+        TreeNode<String>a = new TreeNode<String>("Is the fruit red?", yes, no);
+        TreeNode<String>temp = a;
+        System.out.println("Welcome to the Fun Fruit Guessing Game!");
+        System.out.println("To answer the questions, type 'y' for yes and 'n' for no then hit enter.");
+        boolean correct = false;
+        boolean playagain = false;
+        while(!playagain)
+        {
+            temp = a;
+            while(!correct)
+            {
+                System.out.println("Try it now... Answer this question: Do you like pinapples?");
+                String test = scanconsole.nextLine();
+                if(test.equals("y") ||  test.equals("n"))
+                {
+                    correct = true;
+                    if(test.equals("y"))
+                    {
+                        System.out.println("");
+                        System.out.println("You entered 'y' for yes.. Now I know that you like pineapples!");
+                        System.out.println("Let's begin...");
+                    }
+                    else if(test.equals("n"))
+                    {
+                        System.out.println("");
+                        System.out.println("You entered 'n' for no.. Now I know that you don't like pineapples!");
+                        System.out.println("Let's begin...");
+                    }
+                }
+                else
+                {
+                    System.out.println("");
+                    System.out.println("What? Remember to type exactly 'y' for yes and 'n' for no...");
+                }
+            }
+
+            while(!temp.isALeaf())
+            {
+                correct = false;
+                while(!correct)
+                {
+                    System.out.println("");
+                    System.out.println(temp.getValue()); //Is it red?
+                    String input = scanconsole.nextLine();
+                    if(input.equals("y") ||  input.equals("n"))
+                    {
+                        correct = true;
+                        if(input.equals("y"))
+                        {
+                            temp = temp.getLeft();
+                        }
+                        else if(input.equals("n"))
+                        {
+                            temp = temp.getRight();
+                        }
+                    }
+                    else
+                    {
+                        System.out.println("");
+                        System.out.println("What? Remember to type exactly 'y' for yes and 'n' for no...");
+                        System.out.println("Try again... "+temp.getValue());
+                    }
+                }
+            }
+            correct = false;
+            System.out.println("");
+            System.out.println("I guess: "+ temp.getValue()+". Am I correct?"); //Is it an apple?
+            String inputt = scanconsole.nextLine();
+            if(inputt.equals("y") ||  inputt.equals("n"))
+            {
+                correct = true;
+                if(inputt.equals("n"))
+                {
+                    String noo = no.getValue();
+                    String yess = yes.getValue();
+                    String oldvalue = temp.getValue();
+                    System.out.println("");
+                    System.out.println("Dang! I guessed wrong!");
+                    System.out.println("What is the name of the fruit were you thinking of?");
+                    String ain = scanconsole.nextLine();
+                    System.out.println("");
+                    System.out.println("Oh, I see. I needed to guess "+ain);
+                    System.out.println("Make sure the question can lead the user closer to "+ain+" if they answer 'y'!");
+                    String qin = scanconsole.nextLine();
+                    temp.setValue(qin);
+                    temp.setLeft( new TreeNode<String>(ain));
+                    temp.setRight(new TreeNode<String>(oldvalue));
+                }
+                else if(inputt.equals("y"))
+                {
+                    temp = temp.getLeft();
+                    System.out.println("You typed in 'y' for yes.");
+                    System.out.println("Yay! I guessed right!");
+                }
+                else
+                {
+                    System.out.println("");
+                    System.out.println("What? Remember to type exactly 'y' for yes and 'n' for no...");
+                    System.out.println("Try again... +I guess: "+ yes.getValue()+". Am I correct?");
+                }
+            }
+        }
+    }
+}
+
